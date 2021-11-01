@@ -1,0 +1,8 @@
+.page-container {
+  background-color: #f6cf57;
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+}
