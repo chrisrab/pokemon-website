@@ -1,0 +1,7 @@
+- create pokemon card
+- grid or flex?
+- split by region for faster loading
+- load 20 at time maybe, increase number list maybe
+- router for individual pokemon pages, probably new api call for each
+- search functionality
+- maybe need to store names locally so can autofill to call api
