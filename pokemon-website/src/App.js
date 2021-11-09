@@ -1,4 +1,5 @@
 import './App.css'
+import Card from './Components/Card'
 import { useState, useEffect } from 'react'
 
 const Pokedex = require('pokeapi-js-wrapper')
@@ -16,7 +17,10 @@ function App() {
 
   let numberList = []
 
-  for (let i = 1; i <= 898; i++) {
+  let startNumber = 1
+  let numberOfPokemon = 100
+
+  for (let i = startNumber; i <= numberOfPokemon; i++) {
     numberList.push(i)
   }
 
@@ -32,7 +36,8 @@ function App() {
   }, [])
 
   if (fetched) {
-    console.log(pokemonData[0].name)
+    console.log(pokemonData[0])
+    console.log(pokemonData[0].types[0].type.name)
   }
 
   return (
@@ -40,7 +45,13 @@ function App() {
       <div className="title-container">
         <h1 className="title">Pokédex</h1>
       </div>
-      <div className="content-container">{fetched ? pokemonData.map(el => <p key={el.name}>{el.name}</p>) : ''}</div>
+      <div className="content-container">
+        {fetched
+          ? pokemonData.map(el => (
+              <Card key={el.id} name={el.name} image={el.sprites.front_default} fetched={fetched} type={el.types} />
+            ))
+          : ''}
+      </div>
     </div>
   )
 }
