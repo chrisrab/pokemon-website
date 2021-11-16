@@ -23,7 +23,7 @@
 .card-container {
   margin: 10px;
   background-color: cornsilk;
-  width: 25vh;
+  width: 30vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,4 +41,20 @@
 .type {
   margin-left: 5px;
   margin-right: 5px;
+  font-weight: bolder;
+}
+
+.show-more-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 40px;
+  height: 40px;
+  width: 120px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
