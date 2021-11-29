@@ -1,7 +1,6 @@
 import Card from './Card'
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Link, Route, Routes } from 'react-router-dom'
-import PokemonPage from './PokemonPage'
+import { Link } from 'react-router-dom'
 
 const Pokedex = require('pokeapi-js-wrapper')
 const customOptions = {
@@ -11,20 +10,10 @@ const customOptions = {
 const P = new Pokedex.Pokedex(customOptions)
 
 function Home() {
-  const [pokemonList, setPokemonList] = useState([])
   const [fetched, setFetched] = useState(false)
   const [pokemonData, setPokemonData] = useState([])
   const [startNumber, setStartNumber] = useState(1)
   const [numberOfPokemon, setNumberOfPokemon] = useState(20)
-
-  // let numberList = []
-
-  // let startNumber = 1
-  // let numberOfPokemon = 20
-
-  // for (let i = startNumber; i <= numberOfPokemon; i++) {
-  //   numberList.push(i)
-  // }
 
   const pushNumbers = (start, total) => {
     let numberList = []
@@ -50,27 +39,17 @@ function Home() {
   }, [])
 
   if (fetched) {
-    console.log(pokemonData[0])
+    console.log(pokemonData)
     console.log(pokemonData[0].types[0].type.name)
   }
 
   return (
-    <div className="page-container">
-      <div className="title-container">
-        <h1 className="title">Pokédex</h1>
-      </div>
+    <div>
       <div className="content-container">
         {fetched
-          ? pokemonData.map(el => (
-              <Link to={el.name} style={{ textDecoration: 'none', color: 'black' }}>
-                <Card
-                  key={el.id}
-                  number={el.id}
-                  name={el.name}
-                  image={el.sprites.front_default}
-                  fetched={fetched}
-                  type={el.types}
-                />
+          ? pokemonData.map(({ id, name, sprites, types }) => (
+              <Link to={`/${id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                <Card key={name} number={id} name={name} image={sprites.front_default} fetched={fetched} type={types} />
               </Link>
             ))
           : ''}

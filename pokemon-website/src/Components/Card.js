@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom'
-
 const Card = ({ name, image, type, fetched, number }) => {
   const capitaliseFirstLetter = string => {
     return string.charAt(0).toUpperCase() + string.slice(1)
@@ -22,7 +20,7 @@ const Card = ({ name, image, type, fetched, number }) => {
         colour = '#E4B3E6'
         break
       case 'poison':
-        colour = '#471849'
+        colour = '#683399'
         break
       case 'psychic':
         colour = '#862D80'
