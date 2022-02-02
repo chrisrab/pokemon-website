@@ -1,40 +1,47 @@
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import './PokemonPage.css'
+import { HiArrowCircleLeft, HiArrowCircleRight } from 'react-icons/hi'
+import { Link } from 'react-router-dom'
 
 const Pokedex = require('pokeapi-js-wrapper')
-const customOptions = {
-  cache: true,
-  cacheImages: true
-}
-const P = new Pokedex.Pokedex(customOptions)
+
+const P = new Pokedex.Pokedex()
 
 const PokemonPage = () => {
-  const { id } = useParams()
+  const { name, id } = useParams()
   const [pokemon, setPokemon] = useState([])
-  const [evolution, setEvolution] = useState([])
   const [fetched, setFetched] = useState(false)
-  const [evoFetched, setEvoFetched] = useState(false)
-
-  const [sprite, setSprite] = useState('')
+  const [otherPokemon, setOtherPokemon] = useState([])
+  const [otherFetched, setOtherFetched] = useState(false)
 
   useEffect(() => {
-    P.getPokemonByName(id).then(function(response) {
-      setPokemon(response)
-      setFetched(true)
-    })
-    P.getEvolutionChainById(id)
+    P.getPokemonByName(name)
       .then(function(response) {
-        setEvolution(response)
-        setEvoFetched(true)
+        setPokemon(response)
+        setFetched(true)
       })
       .catch(e => {
         console.log(e)
       })
   }, [])
 
-  console.log(pokemon)
-  console.log(evolution)
+  console.log(pokemon.id)
+
+  useEffect(() => {
+    if (fetched) {
+      P.getPokemonByName([pokemon.id - 1, pokemon.id + 1])
+        .then(function(response) {
+          setOtherPokemon(response)
+          setOtherFetched(true)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    }
+  }, [fetched])
+
+  console.log(otherPokemon)
 
   const colourPicker = type => {
     let colour
@@ -95,13 +102,23 @@ const PokemonPage = () => {
     return colour
   }
 
-  console.log(sprite)
-  if (!fetched || !evoFetched) {
+  if (!otherFetched) {
     return <div></div>
   } else {
     return (
       <div className="pokemon-container">
-        <h1 className="page-name">{pokemon.name}</h1>
+        <div className="title-container">
+          <Link to={`/ivysaur`}>
+            <p className="previous">
+              <HiArrowCircleLeft style={{ marginRight: '15px' }} />
+              {otherPokemon[0].name}
+            </p>
+          </Link>
+          <h1 className="page-name">{pokemon.name}</h1>
+          <p className="next">
+            {otherPokemon[1].name} <HiArrowCircleRight style={{ marginLeft: '15px' }} />
+          </p>
+        </div>
         <div className="image-container">
           <img className="main-image" src={pokemon.sprites.other['official-artwork'].front_default} alt="pokemon" />
         </div>
@@ -123,7 +140,7 @@ const PokemonPage = () => {
                   <td>{`${pokemon.height / 10}m`}</td>
                 </tr>
                 <tr>
-                  <td className="left">Types</td>
+                  <td className="left">Type(s)</td>
                   <td style={{ color: colourPicker(pokemon.types[0].type.name) }} className="capitalise">
                     {pokemon.types[0].type.name}
                   </td>
@@ -138,7 +155,7 @@ const PokemonPage = () => {
                 <tr>
                   <td className="left">Abilities</td>
                   {pokemon.abilities.map(el => (
-                    <td key={el.ability.name} className="capitalise">
+                    <td style={{ paddingRight: '20px' }} key={el.ability.name} className="capitalise">
                       {el.ability.name}
                     </td>
                   ))}

@@ -38,17 +38,12 @@ function Home() {
     })
   }, [])
 
-  if (fetched) {
-    console.log(pokemonData)
-    console.log(pokemonData[0].types[0].type.name)
-  }
-
   return (
     <div>
       <div className="content-container">
         {fetched
           ? pokemonData.map(({ id, name, sprites, types }) => (
-              <Link to={`/${id}`} style={{ textDecoration: 'none', color: 'black' }}>
+              <Link to={`/${name}`} style={{ textDecoration: 'none', color: 'black' }}>
                 <Card key={name} number={id} name={name} image={sprites.front_default} fetched={fetched} type={types} />
               </Link>
             ))
