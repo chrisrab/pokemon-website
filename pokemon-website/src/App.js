@@ -8,15 +8,12 @@ import PokemonPage from './Components/PokemonPage'
 function App() {
   return (
     <div className="page-container">
-      <Router>
-        <Header />
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path=":name" element={<PokemonPage />} />
-          <Route path="/search" element={<Search />} />
-        </Routes>
-      </Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/search" element={<Search />} />
+        <Route path=":name" element={<PokemonPage />} />
+      </Routes>
     </div>
   )
 }

@@ -9,7 +9,7 @@ const Pokedex = require('pokeapi-js-wrapper')
 const P = new Pokedex.Pokedex()
 
 const PokemonPage = () => {
-  const { name, id } = useParams()
+  const { name } = useParams()
   const [pokemon, setPokemon] = useState([])
   const [fetched, setFetched] = useState(false)
   const [otherPokemon, setOtherPokemon] = useState([])
@@ -24,12 +24,30 @@ const PokemonPage = () => {
       .catch(e => {
         console.log(e)
       })
-  }, [])
+  }, [name])
 
   console.log(pokemon.id)
 
   useEffect(() => {
-    if (fetched) {
+    if (fetched && pokemon.name === 'bulbasaur') {
+      P.getPokemonByName([pokemon.id + 1])
+        .then(function(response) {
+          setOtherPokemon(response)
+          setOtherFetched(true)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    } else if (fetched && pokemon.name === 'calyrex') {
+      P.getPokemonByName([pokemon.id - 1])
+        .then(function(response) {
+          setOtherPokemon(response)
+          setOtherFetched(true)
+        })
+        .catch(e => {
+          console.log(e)
+        })
+    } else {
       P.getPokemonByName([pokemon.id - 1, pokemon.id + 1])
         .then(function(response) {
           setOtherPokemon(response)
@@ -39,9 +57,10 @@ const PokemonPage = () => {
           console.log(e)
         })
     }
-  }, [fetched])
+  }, [name, fetched, pokemon])
 
   console.log(otherPokemon)
+  console.log(name)
 
   const colourPicker = type => {
     let colour
@@ -108,16 +127,31 @@ const PokemonPage = () => {
     return (
       <div className="pokemon-container">
         <div className="title-container">
-          <Link to={`/ivysaur`}>
-            <p className="previous">
-              <HiArrowCircleLeft style={{ marginRight: '15px' }} />
-              {otherPokemon[0].name}
-            </p>
-          </Link>
+          {!otherPokemon[1] ? (
+            <p>{''}</p>
+          ) : (
+            <Link to={`/${otherPokemon[0].name}`}>
+              <p className="previous">
+                <HiArrowCircleLeft style={{ marginRight: '15px' }} />
+                {otherPokemon[0].name}
+              </p>
+            </Link>
+          )}
+
           <h1 className="page-name">{pokemon.name}</h1>
-          <p className="next">
-            {otherPokemon[1].name} <HiArrowCircleRight style={{ marginLeft: '15px' }} />
-          </p>
+          {!otherPokemon[1] ? (
+            <Link to={`/${otherPokemon[0].name}`}>
+              <p className="next">
+                {otherPokemon[0].name} <HiArrowCircleRight style={{ marginLeft: '15px' }} />
+              </p>
+            </Link>
+          ) : (
+            <Link to={`/${otherPokemon[1].name}`}>
+              <p className="next">
+                {otherPokemon[1].name} <HiArrowCircleRight style={{ marginLeft: '15px' }} />
+              </p>
+            </Link>
+          )}
         </div>
         <div className="image-container">
           <img className="main-image" src={pokemon.sprites.other['official-artwork'].front_default} alt="pokemon" />

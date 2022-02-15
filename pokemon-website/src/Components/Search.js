@@ -42,7 +42,7 @@ const Search = () => {
               }
             })
             .map(({ name }) => (
-              <Link to={`/${name}`} style={{ textTransform: 'capitalize' }} key={name}>
+              <Link to={`/${name}`} style={{ textDecorationLine: 'none', textTransform: 'capitalize' }} key={name}>
                 <p className="search-name">{name}</p>
               </Link>
             ))}
