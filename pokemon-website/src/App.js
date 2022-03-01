@@ -2,7 +2,7 @@ import './App.css'
 import Header from './Components/Header'
 import Home from './Components/Home'
 import Search from './Components/Search'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import PokemonPage from './Components/PokemonPage'
 
 function App() {
