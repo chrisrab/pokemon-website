@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "fuzzy-search": "^3.2.1",
     "pokeapi-js-wrapper": "^1.2.0",
-    "react-router-dom": "^6.0.2"
+    "react-router-dom": "^6.0.2",
+    "react-select-search": "^3.0.9"
   }
 }

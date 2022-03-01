@@ -1,7 +1,6 @@
 - split by region for faster loading
 - search functionality
 - maybe need to store names locally so can autofill to call api for search
-- change type colours
 - cache images
 - abilities clickable to new page 
 - prev and next pokemon
